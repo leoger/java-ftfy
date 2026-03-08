@@ -5,13 +5,31 @@ Initial Maven workspace for the Java port of `ftfy`.
 ## Requirements
 
 - JDK 21+
+- Maven 3.9.x
 
-## Build
+## Formatting and static analysis baseline
+
+The Maven build now includes:
+
+- **Spotless** for Java source formatting
+- **Checkstyle** with a deliberately small initial ruleset (tabs, wildcard imports,
+  and unused imports), also applied to both main and test source trees.
+
+This baseline is intentionally pragmatic so active feature branches are not blocked
+by a broad, style-heavy ruleset yet.
+
+### Developer commands
 
 ```bash
-./mvnw test
-```
+# Auto-format Java source and tests
+mvn spotless:apply
 
-The wrapper scripts will use `.mvn/wrapper/maven-wrapper.jar` when available.
-In restricted environments where the wrapper JAR cannot be downloaded, `mvnw`
-falls back to calling `mvn` directly.
+# Verify formatting only
+mvn spotless:check
+
+# Run baseline static analysis checks
+mvn checkstyle:check
+
+# Run tests + formatting check + checkstyle (bound to verify)
+mvn verify
+```
