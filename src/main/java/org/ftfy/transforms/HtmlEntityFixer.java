@@ -2,24 +2,20 @@ package org.ftfy.transforms;
 
 import java.util.Map;
 
-/**
- * Decodes a safe subset of semicolon-terminated HTML entities.
- */
+/** Decodes a safe subset of semicolon-terminated HTML entities. */
 public final class HtmlEntityFixer {
     private static final Map<String, String> NAMED_ENTITIES = Map.of(
             "lt", "<",
             "gt", ">",
             "amp", "&",
             "quot", "\"",
-            "apos", "'"
-    );
+            "apos", "'");
 
-    private HtmlEntityFixer() {
-    }
+    private HtmlEntityFixer() {}
 
     /**
-     * Decode semicolon-terminated named and numeric HTML entities.
-     * Non-terminated or unsupported entities are left unchanged.
+     * Decode semicolon-terminated named and numeric HTML entities. Non-terminated or unsupported entities are left
+     * unchanged.
      *
      * @param text input text
      * @return text with decodable semicolon-terminated entities replaced
@@ -75,7 +71,9 @@ public final class HtmlEntityFixer {
         }
 
         Integer codePoint = parseNumericCodePoint(entityBody);
-        if (codePoint == null || !Character.isValidCodePoint(codePoint) || (codePoint >= 0xD800 && codePoint <= 0xDFFF)) {
+        if (codePoint == null
+                || !Character.isValidCodePoint(codePoint)
+                || (codePoint >= 0xD800 && codePoint <= 0xDFFF)) {
             return null;
         }
 

@@ -1,11 +1,8 @@
 package org.ftfy;
 
-/**
- * Entry-point API for the Java port.
- */
+/** Entry-point API for the Java port. */
 public final class Ftfy {
-    private Ftfy() {
-    }
+    private Ftfy() {}
 
     /**
      * Placeholder for the first porting increment.

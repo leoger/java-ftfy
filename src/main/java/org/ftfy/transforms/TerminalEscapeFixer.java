@@ -2,15 +2,11 @@ package org.ftfy.transforms;
 
 import java.util.regex.Pattern;
 
-/**
- * Removes ANSI CSI terminal escape sequences from text.
- */
+/** Removes ANSI CSI terminal escape sequences from text. */
 public final class TerminalEscapeFixer {
-    private static final Pattern ANSI_CSI_SEQUENCE =
-            Pattern.compile("\\u001B\\[[0-?]*[ -/]*[@-~]");
+    private static final Pattern ANSI_CSI_SEQUENCE = Pattern.compile("\\u001B\\[[0-?]*[ -/]*[@-~]");
 
-    private TerminalEscapeFixer() {
-    }
+    private TerminalEscapeFixer() {}
 
     /**
      * Strip ANSI CSI sequences from text.

@@ -4,20 +4,20 @@ package org.ftfy.transforms;
  * Normalizes non-printing control characters so downstream pipeline stages can make consistent assumptions.
  *
  * <p>Policy:
+ *
  * <ul>
- *     <li>Preserve all characters that are not ISO control characters.</li>
- *     <li>Preserve tab ({@code \u0009}) and line feed ({@code \u000A}).</li>
- *     <li>Normalize carriage return ({@code \u000D}) to line feed ({@code \u000A}).</li>
- *     <li>Normalize CRLF pairs ({@code \u000D\u000A}) to a single line feed ({@code \u000A}).</li>
- *     <li>Remove every other ISO control character, including null ({@code \u0000}), the remaining C0
- *     controls ({@code \u0001}-{@code \u0008}, {@code \u000B}, {@code \u000C},
- *     {@code \u000E}-{@code \u001F}), and all C1 controls ({@code \u0080}-{@code \u009F}).</li>
- *     <li>If the input is {@code null}, return {@code null}.</li>
+ *   <li>Preserve all characters that are not ISO control characters.
+ *   <li>Preserve tab ({@code \u0009}) and line feed ({@code \u000A}).
+ *   <li>Normalize carriage return ({@code \u000D}) to line feed ({@code \u000A}).
+ *   <li>Normalize CRLF pairs ({@code \u000D\u000A}) to a single line feed ({@code \u000A}).
+ *   <li>Remove every other ISO control character, including null ({@code \u0000}), the remaining C0 controls
+ *       ({@code \u0001}-{@code \u0008}, {@code \u000B}, {@code \u000C}, {@code \u000E}-{@code \u001F}), and all C1
+ *       controls ({@code \u0080}-{@code \u009F}).
+ *   <li>If the input is {@code null}, return {@code null}.
  * </ul>
  */
 public final class ControlCharFixer {
-    private ControlCharFixer() {
-    }
+    private ControlCharFixer() {}
 
     /**
      * Applies the control-character policy to an input string.

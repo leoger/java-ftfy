@@ -1,20 +1,17 @@
 package org.ftfy.transforms;
 
-/**
- * Normalizes fullwidth/halfwidth presentation forms to standard-width characters.
- */
+/** Normalizes fullwidth/halfwidth presentation forms to standard-width characters. */
 public final class CharacterWidthFixer {
-    private CharacterWidthFixer() {
-    }
+    private CharacterWidthFixer() {}
 
     /**
      * Convert known width-variant characters to their standard forms.
      *
      * <p>Currently normalizes:
+     *
      * <ul>
-     *     <li>Ideographic space ({@code \u3000}) to ASCII space ({@code \u0020})</li>
-     *     <li>ASCII fullwidth forms ({@code \uFF01}-{@code \uFF5E}) to
-     *     standard ASCII ({@code \u0021}-{@code \u007E})</li>
+     *   <li>Ideographic space ({@code \u3000}) to ASCII space ({@code \u0020})
+     *   <li>ASCII fullwidth forms ({@code \uFF01}-{@code \uFF5E}) to standard ASCII ({@code \u0021}-{@code \u007E})
      * </ul>
      *
      * @param text input text
