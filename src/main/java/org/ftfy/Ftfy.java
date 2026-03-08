@@ -98,6 +98,11 @@ public final class Ftfy {
         String current = text;
         int totalImprovement = 0;
 
+        if (!hasMojibakeIndicators(text)) {
+            steps.add(new EncodingStep("detect", "none", 0, 0, false, "no-mojibake-indicators"));
+            return new EncodingFixResult(text, text, false, 1.0, List.copyOf(steps), "SKIPPED_CLEAN");
+        }
+
         for (int pass = 0; pass < effectiveConfig.maxEncodingPasses(); pass++) {
             int beforeScore = scoreText(current);
             Candidate bestCandidate = chooseBestCandidate(current, beforeScore);
@@ -201,6 +206,14 @@ public final class Ftfy {
 
         score += Math.min(10, text.length() / 6);
         return score;
+    }
+
+    private static boolean hasMojibakeIndicators(String text) {
+        return text.indexOf('Ã') >= 0
+                || text.indexOf('Â') >= 0
+                || text.contains("â€")
+                || text.contains("ðŸ")
+                || text.contains("�");
     }
 
     private static int countOccurrences(String text, char needle) {

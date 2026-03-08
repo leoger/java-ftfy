@@ -59,6 +59,12 @@ class FtfyTest {
     }
 
     @Test
+    void fixEncodingCanRepairMultiCharacterMojibake() {
+        assertEquals("l’amour", Ftfy.fixEncoding("lâ€™amour"));
+        assertEquals("10°C", Ftfy.fixEncoding("10Â°C"));
+    }
+
+    @Test
     void fixEncodingAndExplainReturnsTrace() {
         EncodingFixResult result = Ftfy.fixEncodingAndExplain("FranÃ§ois");
 
