@@ -15,18 +15,38 @@
     },
     {
       "id": "curly-quotes",
-      "input": "\u201chere\u2019s a test\u201d",
+      "input": "“here’s a test”",
       "python_fix_text": "\"here's a test\""
     },
     {
       "id": "latin-ligature",
-      "input": "o\uFB03ce",
+      "input": "oﬃce",
       "python_fix_text": "office"
     },
     {
       "id": "already-clean",
       "input": "naive cafe",
       "python_fix_text": "naive cafe"
+    },
+    {
+      "id": "mojibake-francois",
+      "input": "FranÃ§ois",
+      "python_fix_text": "François"
+    },
+    {
+      "id": "emoji-mojibake",
+      "input": "ðŸ˜€",
+      "python_fix_text": "😀"
+    },
+    {
+      "id": "html-entity-basic",
+      "input": "Fish &amp; Chips",
+      "python_fix_text": "Fish & Chips"
+    },
+    {
+      "id": "combining-mark-nfc",
+      "input": "café",
+      "python_fix_text": "café"
     }
   ]
 }
