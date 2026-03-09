@@ -16,6 +16,7 @@
         <spotless.version>2.43.0</spotless.version>
         <checkstyle.version>3.5.0</checkstyle.version>
         <checkstyle.rules.version>10.18.2</checkstyle.rules.version>
+        <jackson.version>2.18.2</jackson.version>
     </properties>
 
     <dependencies>
@@ -23,6 +24,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.11.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
