@@ -85,7 +85,12 @@ class FtfyTest {
     }
 
     @Test
-    void fixEncodingAndExplainRejectedCandidateReportsLowConfidence() {
+    void fixTextRunsEncodingRepairBeforeControlRemoval() {
+        assertEquals("'", Ftfy.fixText("â\u0080\u0099"));
+    }
+
+    @Test
+    void fixEncodingAndExplainRejectedCandidateHasLowConfidence() {
         EncodingFixResult result = Ftfy.fixEncodingAndExplain("Â€");
 
         assertEquals("Â€", result.fixedText());
