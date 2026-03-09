@@ -27,6 +27,46 @@
       "id": "already-clean",
       "input": "naive cafe",
       "python_fix_text": "naive cafe"
+    },
+    {
+      "id": "mojibake-francois",
+      "input": "FranÃ§ois",
+      "python_fix_text": "François"
+    },
+    {
+      "id": "emoji-mojibake",
+      "input": "ðŸ˜€",
+      "python_fix_text": "😀"
+    },
+    {
+      "id": "html-entity-basic",
+      "input": "Fish &amp; Chips",
+      "python_fix_text": "Fish & Chips"
+    },
+    {
+      "id": "combining-mark-nfc",
+      "input": "café",
+      "python_fix_text": "café"
+    },
+    {
+      "id": "mojibake-apostrophe",
+      "input": "lâ€™amour",
+      "python_fix_text": "l'amour"
+    },
+    {
+      "id": "mojibake-degree",
+      "input": "10Â°C",
+      "python_fix_text": "10°C"
+    },
+    {
+      "id": "no-op-legit-accent-cap",
+      "input": "Âge",
+      "python_fix_text": "Âge"
+    },
+    {
+      "id": "no-op-single-a-tilde",
+      "input": "Ã",
+      "python_fix_text": "Ã"
     }
   ]
 }

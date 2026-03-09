@@ -1,13 +1,15 @@
 package org.ftfy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 class FtfyTest {
     @Test
-    void fixTextAppliesCurrentPipeline() {
+    void fixTextAppliesDefaultPipeline() {
         String input = "\u201cline 1\u201d\r\n\uFB02u\uFB03e\uFB06";
         assertEquals("\"line 1\"\nfluffiest", Ftfy.fixText(input));
     }
@@ -29,13 +31,77 @@ class FtfyTest {
     }
 
     @Test
-    void nullAndEmptyInputsArePreserved() {
-        assertNull(Ftfy.fixText(null));
-        assertEquals("", Ftfy.fixText(""));
+    void fixTextRespectsConfigTogglesAndOrder() {
+        String input = "A\r\nB &amp; C\u3000";
+        FixConfig config = new FixConfig(false, true, true, true, true, false, false, 2);
+
+        assertEquals("A\nB & C ", Ftfy.fixText(input, config));
     }
 
     @Test
-    void fixTextCurrentlyReturnsInput() {
-        assertEquals("naïve café", Ftfy.fixText("naïve café"));
+    void fixTextPerformsNfcNormalizationByDefault() {
+        assertEquals("café", Ftfy.fixText("cafe\u0301"));
+    }
+
+    @Test
+    void fixEncodingFixesCommonMojibake() {
+        assertEquals("François", Ftfy.fixEncoding("FranÃ§ois"));
+    }
+
+    @Test
+    void fixEncodingHandlesEmojiMojibake() {
+        assertEquals("😀", Ftfy.fixEncoding("ðŸ˜€"));
+    }
+
+    @Test
+    void fixEncodingLeavesCleanTextUntouched() {
+        assertEquals("naïve café", Ftfy.fixEncoding("naïve café"));
+    }
+
+    @Test
+    void fixEncodingCanRepairMultiCharacterMojibake() {
+        assertEquals("l’amour", Ftfy.fixEncoding("lâ€™amour"));
+        assertEquals("10°C", Ftfy.fixEncoding("10Â°C"));
+    }
+
+    @Test
+    void fixEncodingAndExplainReturnsTrace() {
+        EncodingFixResult result = Ftfy.fixEncodingAndExplain("FranÃ§ois");
+
+        assertEquals("François", result.fixedText());
+        assertTrue(result.changed());
+        assertEquals("CHANGED", result.summaryCode());
+        assertFalse(result.steps().isEmpty());
+        assertTrue(result.confidence() > 0.0);
+    }
+
+    @Test
+    void fixEncodingAndExplainLeavesUndecodableInputUnchanged() {
+        EncodingFixResult result = Ftfy.fixEncodingAndExplain("Â");
+
+        assertEquals("Â", result.fixedText());
+        assertFalse(result.changed());
+        assertEquals("NO_CHANGE", result.summaryCode());
+    }
+
+    @Test
+    void fixTextRunsEncodingRepairBeforeControlRemoval() {
+        assertEquals("'", Ftfy.fixText("â\u0080\u0099"));
+    }
+
+    @Test
+    void fixEncodingAndExplainRejectedCandidateHasLowConfidence() {
+        EncodingFixResult result = Ftfy.fixEncodingAndExplain("Â€");
+
+        assertEquals("Â€", result.fixedText());
+        assertFalse(result.changed());
+        assertEquals("REJECTED_UNCERTAIN", result.summaryCode());
+        assertEquals(0.0, result.confidence());
+    }
+
+    @Test
+    void nullAndEmptyInputsArePreserved() {
+        assertNull(Ftfy.fixText(null));
+        assertEquals("", Ftfy.fixText(""));
     }
 }
