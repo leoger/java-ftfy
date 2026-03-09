@@ -15,12 +15,12 @@
     },
     {
       "id": "curly-quotes",
-      "input": "“here’s a test”",
+      "input": "\u201chere\u2019s a test\u201d",
       "python_fix_text": "\"here's a test\""
     },
     {
       "id": "latin-ligature",
-      "input": "oﬃce",
+      "input": "o\uFB03ce",
       "python_fix_text": "office"
     },
     {
