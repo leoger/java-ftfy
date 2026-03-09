@@ -93,6 +93,7 @@ class FtfyTest {
     void fixEncodingAndExplainRejectedCandidateHasLowConfidence() {
         EncodingFixResult result = Ftfy.fixEncodingAndExplain("Â€");
 
+        assertEquals("Â€", result.fixedText());
         assertFalse(result.changed());
         assertEquals("REJECTED_UNCERTAIN", result.summaryCode());
         assertEquals(0.0, result.confidence());
