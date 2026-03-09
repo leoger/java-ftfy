@@ -46,11 +46,11 @@ public final class Ftfy {
         FixConfig effectiveConfig = (config == null ? FixConfig.DEFAULT : config).validated();
         String fixed = normalizeLineBreaks(text);
 
-        if (effectiveConfig.removeControlChars()) {
-            fixed = ControlCharFixer.fixText(fixed);
-        }
         if (effectiveConfig.fixEncoding()) {
             fixed = fixEncoding(fixed, effectiveConfig);
+        }
+        if (effectiveConfig.removeControlChars()) {
+            fixed = ControlCharFixer.fixText(fixed);
         }
         if (effectiveConfig.decodeHtmlEntities()) {
             fixed = HtmlEntityFixer.decodeSemicolonTerminatedEntities(fixed);
@@ -146,7 +146,14 @@ public final class Ftfy {
             summaryCode = "NO_CHANGE";
         }
 
-        double confidence = changed ? Math.min(1.0, 0.5 + (totalImprovement / 20.0)) : 1.0;
+        double confidence;
+        if (changed) {
+            confidence = Math.min(1.0, 0.5 + (totalImprovement / 20.0));
+        } else if ("REJECTED_UNCERTAIN".equals(summaryCode)) {
+            confidence = 0.0;
+        } else {
+            confidence = 1.0;
+        }
         return new EncodingFixResult(text, current, changed, confidence, List.copyOf(steps), summaryCode);
     }
 
@@ -209,11 +216,24 @@ public final class Ftfy {
     }
 
     private static boolean hasMojibakeIndicators(String text) {
-        return text.indexOf('Ã') >= 0
+        if (text.indexOf('Ã') >= 0
                 || text.indexOf('Â') >= 0
                 || text.contains("â€")
                 || text.contains("ðŸ")
-                || text.contains("�");
+                || text.contains("�")) {
+            return true;
+        }
+
+        if (text.indexOf('â') >= 0) {
+            for (int i = 0; i < text.length(); i++) {
+                char ch = text.charAt(i);
+                if (ch >= '\u0080' && ch <= '\u009F') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private static int countOccurrences(String text, char needle) {

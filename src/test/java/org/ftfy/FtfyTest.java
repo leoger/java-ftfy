@@ -85,6 +85,20 @@ class FtfyTest {
     }
 
     @Test
+    void fixTextRunsEncodingRepairBeforeControlRemoval() {
+        assertEquals("'", Ftfy.fixText("â\u0080\u0099"));
+    }
+
+    @Test
+    void fixEncodingAndExplainRejectedCandidateHasLowConfidence() {
+        EncodingFixResult result = Ftfy.fixEncodingAndExplain("Â€");
+
+        assertFalse(result.changed());
+        assertEquals("REJECTED_UNCERTAIN", result.summaryCode());
+        assertEquals(0.0, result.confidence());
+    }
+
+    @Test
     void nullAndEmptyInputsArePreserved() {
         assertNull(Ftfy.fixText(null));
         assertEquals("", Ftfy.fixText(""));
