@@ -1,6 +1,8 @@
 package org.ftfy.transforms;
 
 /** Normalizes fullwidth/halfwidth presentation forms to standard-width characters. */
+// Python: @see ftfy-python/ftfy/fixes.py:186 @see ftfy-python/ftfy/chardata.py:233
+// (fix_character_width and WIDTH_MAP construction).
 public final class CharacterWidthFixer {
     private CharacterWidthFixer() {}
 
@@ -17,6 +19,8 @@ public final class CharacterWidthFixer {
      * @param text input text
      * @return normalized text, or {@code null} when input is {@code null}
      */
+    // Python: @see ftfy-python/ftfy/fixes.py:186
+    // (fix_character_width).
     public static String normalizeKnownWidthForms(String text) {
         if (text == null) {
             return null;

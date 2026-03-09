@@ -16,6 +16,8 @@ package org.ftfy.transforms;
  *   <li>If the input is {@code null}, return {@code null}.
  * </ul>
  */
+// Python: @see ftfy-python/ftfy/fixes.py:297 @see ftfy-python/ftfy/fixes.py:206
+// (remove_control_chars; this Java helper also folds CR/CRLF like fix_line_breaks).
 public final class ControlCharFixer {
     private ControlCharFixer() {}
 
@@ -25,6 +27,8 @@ public final class ControlCharFixer {
      * @param text input text, possibly {@code null}
      * @return text with disallowed control characters removed and carriage returns normalized
      */
+    // Python: @see ftfy-python/ftfy/fixes.py:297 @see ftfy-python/ftfy/fixes.py:206
+    // (remove_control_chars plus fix_line_breaks behavior).
     public static String fixText(String text) {
         if (text == null) {
             return null;

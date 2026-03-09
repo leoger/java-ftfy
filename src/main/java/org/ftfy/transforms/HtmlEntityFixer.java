@@ -4,6 +4,8 @@ import java.util.Map;
 
 /** Decodes a safe subset of semicolon-terminated HTML entities. */
 public final class HtmlEntityFixer {
+    // Python: @see ftfy-python/ftfy/chardata.py:62
+    // (HTML_ENTITIES table construction; Java keeps only the minimal named subset used by this port).
     private static final Map<String, String> NAMED_ENTITIES = Map.of(
             "lt", "<",
             "gt", ">",
@@ -20,6 +22,8 @@ public final class HtmlEntityFixer {
      * @param text input text
      * @return text with decodable semicolon-terminated entities replaced
      */
+    // Python: @see ftfy-python/ftfy/fixes.py:94
+    // (unescape_html).
     public static String decodeSemicolonTerminatedEntities(String text) {
         if (text == null || text.isEmpty()) {
             return text;
@@ -56,6 +60,8 @@ public final class HtmlEntityFixer {
         return result.toString();
     }
 
+    // Python: @see ftfy-python/ftfy/fixes.py:73
+    // (_unescape_fixup).
     private static String decodeEntityBody(String entityBody) {
         if (entityBody.isEmpty()) {
             return null;
@@ -80,6 +86,8 @@ public final class HtmlEntityFixer {
         return new String(Character.toChars(codePoint));
     }
 
+    // Python: @see ftfy-python/ftfy/fixes.py:81
+    // (_unescape_fixup numeric-reference branch).
     private static Integer parseNumericCodePoint(String entityBody) {
         if (entityBody.length() < 2) {
             return null;
