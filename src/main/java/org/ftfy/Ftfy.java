@@ -146,7 +146,14 @@ public final class Ftfy {
             summaryCode = "NO_CHANGE";
         }
 
-        double confidence = changed ? Math.min(1.0, 0.5 + (totalImprovement / 20.0)) : 1.0;
+        double confidence;
+        if (changed) {
+            confidence = Math.min(1.0, 0.5 + (totalImprovement / 20.0));
+        } else if ("REJECTED_UNCERTAIN".equals(summaryCode)) {
+            confidence = 0.0;
+        } else {
+            confidence = 1.0;
+        }
         return new EncodingFixResult(text, current, changed, confidence, List.copyOf(steps), summaryCode);
     }
 
